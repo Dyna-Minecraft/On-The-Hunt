@@ -15,6 +15,8 @@ public class Game extends Canvas implements Runnable {
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
     private boolean running = false;
+    private int tickCount;
+
 
     public void start() {
         running = true;
@@ -26,17 +28,35 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void run() {
+        long lastTime = System.nanoTime();
+        double unprocessed = 0;
+        double nsPerTick = 120.0 / 1000000000.0;
+        int frames = 0;
+        long lastTimer1 = System.currentTimeMillis();
+
         while (running) {
-            runStep();
+            long now = System.nanoTime();
+            double unprocessed += (now-lastTime)/nsPerTick;
+            while (unprocessed>=1) {
+                tick();
+                unprocessed -= 1;
+            }
+            {
+                frames++;
+                render();
+            }
+
+            if (System.currentTimeMillis()-lastTimer1>1000) {
+                lastTimer1+=1000;
+                System.out.println(frames + " fps");
+                frames = 0;
+            }
         }
     }
 
-    public void runStep() {
-        tick();
-        render();
-    }
 
     public void tick() {
+        tickCount++;
     }
 
     public void render() {
@@ -47,7 +67,7 @@ public class Game extends Canvas implements Runnable {
         }
 
         for (int i = 0; i < pixels.length; i++) {
-
+            pixels[i] = i+tickCount;
         }
 
 
@@ -74,5 +94,6 @@ public class Game extends Canvas implements Runnable {
         frame.setVisible(true);
 
         game.start();
+        System.out.println("Game started");
     }
 }
