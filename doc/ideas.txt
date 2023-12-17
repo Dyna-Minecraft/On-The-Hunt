@@ -1,7 +1,31 @@
-top-down desert survival game - maybe apocalyptic but that seems to overdone
+top-down desert survival game - maybe apocalyptic but that seems too overdone
 
 "On The Hunt" A.K.A. hunting food for survival cuz ur in a desert
 
 maybe ur getting hunted also? hmm...
 
 maybe music samples the last 1:20 of Bizet: Carmen, WD 31 - Prélude? idk it sounds kinda egyptian deserty right?
+
+either biomes or modes
+
+MODES:
+maybe like "Frozen" and "Hot" (def needs better name)
+Frozen = Really cold desert, ''penguins''
+Hot = Really hot desert
+
+Pros:
+More Specialised experience.
+Easier to add in.
+Future Compatible
+
+Cons:
+Worse player experience.
+
+BIOMES:
+-
+
+Pros:
+
+
+Cons:
+Maybe not future compatabile depending on how i code the world gen
