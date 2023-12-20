@@ -8,9 +8,10 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
+import javax.swing.*;
 
 public class Game extends Canvas implements Runnable {
     private static final long serialVersionUID = 1L;
@@ -26,6 +27,8 @@ public class Game extends Canvas implements Runnable {
     private int tickCount;
     private Screen screen;
 
+    private int[] colors = new int[256];
+
     public void start() {
         running = true;
         new Thread(this).start();
@@ -36,12 +39,21 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void init() {
+        int pp = 0;
+        for (int r = 0; r < 6; r++) {
+            for (int g = 0; g < 6; g++) {
+                for (int b = 0; b < 6; b++) {
+                    colors[pp++] = (r * 255 / 5) << 16 | (g * 255 / 5) << 8 | (b * 255 / 5);
+                }
+            }
+        }
         try {
-            screen = new Screen(WIDTH, HEIGHT, new SpriteSheet(ImageIO.read(Game.class.getResourceAsStream("icons.png"))));
+            screen = new Screen(WIDTH, HEIGHT, new SpriteSheet(ImageIO.read(Game.class.getClassLoader().getResourceAsStream("icons.png"))));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     public void run() {
         long lastTime = System.nanoTime();
         double unprocessed = 0;
@@ -94,11 +106,19 @@ public class Game extends Canvas implements Runnable {
             createBufferStrategy(3);
             return;
         }
-
-        screen.render(pixels, 0, WIDTH);
-
+        screen.render();
+        for (int y = 0; y < screen.h; y++) {
+            for (int x = 0; x < screen.w; x++) {
+                pixels[x + y * WIDTH] = colors[screen.pixels[x + y * screen.w]];
+            }
+        }
         Graphics g = bs.getDrawGraphics();
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+        g.fillRect(0, 0, getWidth(), getHeight());
+        int ww = WIDTH * 3;
+        int hh = HEIGHT * 3;
+        int xo = (getWidth() - ww) / 2;
+        int yo = (getHeight() - hh) / 2;
+        g.drawImage(image, xo, yo, ww, hh, null);
         g.dispose();
         bs.show();
     }
@@ -112,9 +132,9 @@ public class Game extends Canvas implements Runnable {
         JFrame frame = new JFrame(Game.NAME);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
-        frame.add(game);
+        frame.add(game, BorderLayout.CENTER);
         frame.pack();
-        frame.setResizable(false);
+        frame.setResizable(true);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
