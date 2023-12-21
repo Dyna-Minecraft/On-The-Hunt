@@ -2,7 +2,6 @@ package com.dyna.oth.gfx;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Screen {
     private List<Sprite> sprites = new ArrayList<Sprite>();
@@ -31,19 +30,29 @@ public class Screen {
 
         pixels = new int[w * h];
 
-        Random random = new Random();
-
         for (int i = 0; i < MAP_WIDTH * MAP_WIDTH; i++) {
-            colors[i] = (colors[i] << 8) + random.nextInt(6 * 6 * 6);
-            colors[i] = (colors[i] << 8) + random.nextInt(6 * 6 * 6);
-            colors[i] = (colors[i] << 8) + random.nextInt(6 * 6 * 6);
-            colors[i] = (colors[i] << 8) + random.nextInt(6 * 6 * 6);
+            colors[i] = getColor(50, 50, 50, 50);
 
             if (i % 2 == 0) databits[i] += 1;
             if (i / MAP_WIDTH % 2 == 0) databits[i] += 2;
         }
 
         new Font().draw("AbcdefghT 0123456789", this, 0, 0);
+
+        sprites.add(new Sprite(0, 0, 0 + 14 * 32, getColor(-1, 555, 555, 555), 0));
+    }
+
+    private int getColor(int a, int b, int c, int d) {
+        return (getCol(d) << 24) + (getCol(c) << 16) + (getCol(b) << 8) + (getCol(a));
+    }
+
+    private int getCol(int d) {
+        if (d < 0) return 255;
+
+        int r = d / 100 % 10;
+        int g = d / 10 % 10;
+        int b = d % 10;
+        return r * 36 + g * 6 + b;
     }
 
     public void render() {
@@ -56,7 +65,7 @@ public class Screen {
             }
         }
 
-        for (int i=0; i<sprites.size(); i++) {
+        for (int i = 0; i < sprites.size(); i++) {
             Sprite s = sprites.get(i);
             render(s.x, s.y, s.img, s.col, s.bits);
         }
