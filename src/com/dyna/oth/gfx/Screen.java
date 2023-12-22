@@ -34,14 +34,22 @@ public class Screen {
         Random random = new Random();
 
         for (int i = 0; i < MAP_WIDTH * MAP_WIDTH; i++) {
-            colors[i] = Color.get(-1, 528, 550, 531);
-            tiles[i] = random.nextInt(10) / 9 * 32;
-            if (tiles[i]!=0) {
-                colors[i] = Color.get(00, 40, 550, 750);
+            colors[i] = Color.get(-1, 550, 531, 550);
+            tiles[i] = 0;
+
+            if (random.nextInt(10) == 9) {
+                tiles[i] = 32;
+                colors[i] = Color.get(111, 550, 222, 333);
+                databits[i] = random.nextInt(2);
+            }
+            else if (random.nextInt(10) == 9) {
+                tiles[i] = 33;
+                colors[i] = Color.get(20, 550, 540, 530);
             }
         }
 
-        new Font().draw("AbcdefghT 0123456789", this, 0, 0);
+        new Font().draw("ABCDEF ghijkl MNOPQR stuvwx YZ", this, 0, 0);
+        new Font().draw("012345 6789   .,!'\"- +=/\\%( )<>", this, 0, 1);
     }
 
 

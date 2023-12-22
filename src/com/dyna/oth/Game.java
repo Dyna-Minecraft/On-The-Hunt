@@ -26,7 +26,7 @@ public class Game extends Canvas implements Runnable {
     private boolean running = false;
     private int tickCount;
     private Screen screen;
-    private InputHandler inputHandler = new InputHandler(this);
+    private InputHandler input = new InputHandler(this);
 
     private int[] colors = new int[256];
 
@@ -44,7 +44,14 @@ public class Game extends Canvas implements Runnable {
         for (int r = 0; r < 6; r++) {
             for (int g = 0; g < 6; g++) {
                 for (int b = 0; b < 6; b++) {
-                    colors[pp++] = (r * 255 / 5) << 16 | (g * 255 / 5) << 8 | (b * 255 / 5);
+                    int rr = (r * 255 / 5);
+                    int gg = (g * 255 / 5);
+                    int bb = (b * 255 / 5);
+                    int mid = (rr * 30 + gg * 59 + bb * 11) / 100;
+                    rr = (rr + mid) / 2;
+                    gg = (gg + mid) / 2;
+                    bb = (bb + mid) / 2;
+                    colors[pp++] = rr << 16 | gg << 8 | bb;
                 }
             }
         }
@@ -98,7 +105,10 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void tick() {
-
+        if (input.up) screen.yScroll--;
+        if (input.down) screen.yScroll++;
+        if (input.left) screen.xScroll--;
+        if (input.right) screen.xScroll++;
         tickCount++;
     }
 
@@ -106,14 +116,20 @@ public class Game extends Canvas implements Runnable {
         BufferStrategy bs = getBufferStrategy();
         if (bs == null) {
             createBufferStrategy(3);
+            requestFocus();
             return;
         }
 
         screen.render();
-        screen.render(0, 0, 0 + 14 * 32, Color.get(-1, 555, 555, 555), 0);
-        screen.render(8, 0, 1 + 14 * 32, Color.get(-1, 555, 555, 555), 0);
-        screen.render(0, 8, 0 + 15 * 32, Color.get(-1, 555, 555, 555), 0);
-        screen.render(8, 0, 1 + 15 * 32, Color.get(-1, 555, 555, 555), 0);
+        {
+            int xo = WIDTH / 2 - 8;
+            int yo = HEIGHT / 2 - 8;
+            screen.render(xo + 0, yo + 0, 0 + 14 * 32, Color.get(-1, 555, 555, 555), 0);
+            screen.render(xo + 8, yo + 0, 1 + 14 * 32, Color.get(-1, 555, 555, 555), 0);
+            screen.render(xo + 0, yo + 8, 0 + 15 * 32, Color.get(-1, 555, 555, 555), 0);
+            screen.render(xo + 8, yo + 0, 1 + 15 * 32, Color.get(-1, 555, 555, 555), 0);
+        }
+
         for (int y = 0; y < screen.h; y++) {
             for (int x = 0; x < screen.w; x++) {
                 pixels[x + y * WIDTH] = colors[screen.pixels[x + y * screen.w]];
@@ -141,7 +157,7 @@ public class Game extends Canvas implements Runnable {
         frame.setLayout(new BorderLayout());
         frame.add(game, BorderLayout.CENTER);
         frame.pack();
-        frame.setResizable(true);
+        frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 

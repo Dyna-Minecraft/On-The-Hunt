@@ -26,10 +26,10 @@ public class InputHandler implements KeyListener {
     }
 
     private void toggle(KeyEvent ke, boolean pressed) {
-        if (ke.getKeyCode()==KeyEvent.VK_UP) up = pressed;
-        if (ke.getKeyCode()==KeyEvent.VK_DOWN) down = pressed;
-        if (ke.getKeyCode()==KeyEvent.VK_LEFT) left = pressed;
-        if (ke.getKeyCode()==KeyEvent.VK_RIGHT) right = pressed;
+        if (ke.getKeyCode()==KeyEvent.VK_W) up = pressed;
+        if (ke.getKeyCode()==KeyEvent.VK_S) down = pressed;
+        if (ke.getKeyCode()==KeyEvent.VK_A) left = pressed;
+        if (ke.getKeyCode()==KeyEvent.VK_D) right = pressed;
     }
 
     public void keyTyped(KeyEvent ke) {

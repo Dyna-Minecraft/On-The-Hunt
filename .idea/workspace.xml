@@ -8,7 +8,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/res/icons.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/icons.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/dyna/oth/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/dyna/oth/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/dyna/oth/gfx/Font.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/dyna/oth/gfx/Font.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/dyna/oth/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/dyna/oth/InputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/dyna/oth/gfx/Color.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/dyna/oth/gfx/Color.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/dyna/oth/gfx/Screen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/dyna/oth/gfx/Screen.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -148,7 +149,15 @@
       <option name="project" value="LOCAL" />
       <updated>1703191131518</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="ejudsa">
+      <option name="closed" value="true" />
+      <created>1703244543852</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1703244543852</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -164,6 +173,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="thx slash!" />
+    <MESSAGE value="ejudsa" />
     <MESSAGE value="Commit" />
     <option name="LAST_COMMIT_MESSAGE" value="Commit" />
   </component>

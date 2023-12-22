@@ -1,8 +1,8 @@
 package com.dyna.oth.gfx;
 
 public class Color {
-    public static int get(int red, int green, int blue, int alpha) {
-        return (alpha << 24) + (red << 16) + (green << 8) + blue;
+    public static int get(int black, int darkGray, int lightGray, int white) {
+        return (get(white) << 24) + (get(lightGray) << 16) + (get(darkGray) << 8) + (get(black));
     }
 
     public static int get(int d) {
