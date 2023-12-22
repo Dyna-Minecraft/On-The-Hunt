@@ -1,5 +1,6 @@
 package com.dyna.oth;
 
+import com.dyna.oth.gfx.Color;
 import com.dyna.oth.gfx.Screen;
 import com.dyna.oth.gfx.SpriteSheet;
 
@@ -25,6 +26,7 @@ public class Game extends Canvas implements Runnable {
     private boolean running = false;
     private int tickCount;
     private Screen screen;
+    private InputHandler inputHandler = new InputHandler(this);
 
     private int[] colors = new int[256];
 
@@ -96,6 +98,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void tick() {
+
         tickCount++;
     }
 
@@ -105,7 +108,12 @@ public class Game extends Canvas implements Runnable {
             createBufferStrategy(3);
             return;
         }
+
         screen.render();
+        screen.render(0, 0, 0 + 14 * 32, Color.get(-1, 555, 555, 555), 0);
+        screen.render(8, 0, 1 + 14 * 32, Color.get(-1, 555, 555, 555), 0);
+        screen.render(0, 8, 0 + 15 * 32, Color.get(-1, 555, 555, 555), 0);
+        screen.render(8, 0, 1 + 15 * 32, Color.get(-1, 555, 555, 555), 0);
         for (int y = 0; y < screen.h; y++) {
             for (int x = 0; x < screen.w; x++) {
                 pixels[x + y * WIDTH] = colors[screen.pixels[x + y * screen.w]];

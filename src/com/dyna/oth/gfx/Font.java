@@ -15,7 +15,7 @@ public class Font {
             int ix = chars.indexOf(msg.charAt(i));
             if (ix >= 0) {
                 int color = msg.charAt(i) != ' ' ? white : black;
-                screen.setTile(x + i, y, 0, ix + 30 * 32, color, 0);
+                screen.setTile(x + i, y, ix + 30 * 32, color, 0);
             }
         }
     }
