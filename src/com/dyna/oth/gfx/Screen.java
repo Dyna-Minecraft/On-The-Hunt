@@ -57,10 +57,12 @@ public class Screen {
 
 
     public void render() {
-        for (int yt = yScroll >> 3; yt <= (yScroll + h) >> 3; yt++) {
-            int yp = yt * 8 - yScroll;
-            for (int xt = xScroll >> 3; xt <= (xScroll + w) >> 3; xt++) {
-                int xp = xt * 8 - xScroll;
+        int roundedYScroll = yScroll / 10;
+        int roundedXScroll = xScroll / 10;
+        for (int yt = roundedYScroll >> 3; yt <= (roundedYScroll + h) >> 3; yt++) {
+            int yp = yt * 8 - roundedYScroll;
+            for (int xt = roundedXScroll >> 3; xt <= (roundedXScroll + w) >> 3; xt++) {
+                int xp = xt * 8 - roundedXScroll;
                 int ti = (xt & (MAP_WIDTH_MASK)) + (yt & (MAP_WIDTH_MASK)) * MAP_WIDTH;
                 render(xp, yp, tiles[ti], colors[ti], databits[ti]);
             }
