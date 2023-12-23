@@ -1,6 +1,7 @@
 package com.dyna.oth;
 
 import com.dyna.oth.gfx.Color;
+import com.dyna.oth.gfx.Font;
 import com.dyna.oth.gfx.Screen;
 import com.dyna.oth.gfx.SpriteSheet;
 
@@ -27,6 +28,8 @@ public class Game extends Canvas implements Runnable {
     private int tickCount;
     private Screen screen;
     private InputHandler input = new InputHandler(this);
+    private int walkDist = 0;
+    private int dir = 0;
 
     private int[] colors = new int[256];
 
@@ -48,9 +51,9 @@ public class Game extends Canvas implements Runnable {
                     int gg = (g * 255 / 5);
                     int bb = (b * 255 / 5);
                     int mid = (rr * 30 + gg * 59 + bb * 11) / 100;
-                    rr = (rr + mid) / 2;
-                    gg = (gg + mid) / 2;
-                    bb = (bb + mid) / 2;
+                    rr = ((rr + mid) / 2) * 200 / 255 + 35;
+                    gg = ((gg + mid) / 2) * 200 / 255 + 35;
+                    bb = ((bb + mid) / 2) * 200 / 255 + 35;
                     colors[pp++] = rr << 16 | gg << 8 | bb;
                 }
             }
@@ -65,7 +68,7 @@ public class Game extends Canvas implements Runnable {
     public void run() {
         long lastTime = System.nanoTime();
         double unprocessed = 0;
-        double nsPerTick = 1000000000.0 / 60.0;
+        double nsPerTick = 1000000000.0 / 60;
         int frames = 0;
         int ticks = 0;
         long lastTimer1 = System.currentTimeMillis();
@@ -105,10 +108,32 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void tick() {
-        if (input.up) screen.yScroll--;
-        if (input.down) screen.yScroll++;
-        if (input.left) screen.xScroll--;
-        if (input.right) screen.xScroll++;
+        if (!hasFocus()) {
+            input.releaseAll();
+        }
+
+        boolean walked = false;
+        if (input.up) {
+            dir = 1;
+            walked = true;
+            screen.yScroll--;
+        }
+        if (input.down) {
+            dir = 0;
+            walked = true;
+            screen.yScroll++;
+        }
+        if (input.left) {
+            dir = 2;
+            walked = true;
+            screen.xScroll--;
+        }
+        if (input.right) {
+            dir = 3;
+            walked = true;
+            screen.xScroll++;
+        }
+        if (walked) walkDist++;
         tickCount++;
     }
 
@@ -124,12 +149,32 @@ public class Game extends Canvas implements Runnable {
         {
             int xo = WIDTH / 2 - 8;
             int yo = HEIGHT / 2 - 8;
-            screen.render(xo + 0, yo + 0, 0 + 14 * 32, Color.get(-1, 555, 555, 555), 0);
-            screen.render(xo + 8, yo + 0, 1 + 14 * 32, Color.get(-1, 555, 555, 555), 0);
-            screen.render(xo + 0, yo + 8, 0 + 15 * 32, Color.get(-1, 555, 555, 555), 0);
-            screen.render(xo + 8, yo + 8, 1 + 15 * 32, Color.get(-1, 555, 555, 555), 0);
+
+            int xt = 0;
+            int yt = 14;
+
+            int flip1 = (walkDist >> 3) & 1;
+            int flip2 = (walkDist >> 3) & 1;
+
+            if (dir == 1) {
+                xt += 2;
+            }
+            if (dir > 1) {
+                flip1 = 0;
+                flip2 = ((walkDist >> 5) & 1);
+                if (dir == 2) {
+                    flip1 = 1;
+                }
+                xt += 4 + ((walkDist >> 3) & 1) * 2;
+            }
+
+            screen.render(xo + 8 * flip1, yo + 0, xt + yt * 32, Color.get(-1, 100, 220, 542), flip1);
+            screen.render(xo + 8 - 8 * flip1, yo + 0, xt + 1 + yt * 32, Color.get(-1, 100, 220, 542), flip1);
+            screen.render(xo + 8 * flip2, yo + 8, xt + (yt + 1) * 32, Color.get(-1, 100, 220, 542), flip2);
+            screen.render(xo + 8 - 8 * flip2, yo + 8, xt + 1 + (yt + 1) * 32, Color.get(-1, 100, 220, 542), flip2);
         }
 
+        Font.draw("abcdefghi 0123456789", screen, 0, 0, Color.get(-1, 555, 555, 555));
         for (int y = 0; y < screen.h; y++) {
             for (int x = 0; x < screen.w; x++) {
                 pixels[x + y * WIDTH] = colors[screen.pixels[x + y * screen.w]];

@@ -37,19 +37,22 @@ public class Screen {
             colors[i] = Color.get(-1, 550, 531, 550);
             tiles[i] = 0;
 
-            if (random.nextInt(10) == 9) {
+            if (random.nextInt(40) == 0) {
                 tiles[i] = 32;
                 colors[i] = Color.get(111, 550, 222, 333);
                 databits[i] = random.nextInt(2);
             }
-            else if (random.nextInt(10) == 9) {
+            else if (random.nextInt(40) == 0) {
                 tiles[i] = 33;
                 colors[i] = Color.get(20, 550, 540, 530);
             }
+            else {
+                tiles[i] = random.nextInt(4);
+                databits[i]  = random.nextInt(4);
+            }
         }
 
-        new Font().draw("ABCDEF ghijkl MNOPQR stuvwx YZ", this, 0, 0);
-        new Font().draw("012345 6789   .,!'\"- +=/\\%( )<>", this, 0, 1);
+        Font.setMap("abcdefghi 0123456789", this, 0, 0, Color.get(0, 555, 555, 555));
     }
 
 
