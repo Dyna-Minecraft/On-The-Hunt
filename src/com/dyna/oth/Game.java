@@ -113,26 +113,40 @@ public class Game extends Canvas implements Runnable {
         }
 
         boolean walked = false;
+        int horizontalSpeed = 0;
+        int verticalSpeed = 0;
         if (input.up) {
             dir = 1;
             walked = true;
-            screen.yScroll--;
+            verticalSpeed = -1;
         }
         if (input.down) {
             dir = 0;
             walked = true;
-            screen.yScroll++;
+            verticalSpeed = 1;
         }
         if (input.left) {
             dir = 2;
             walked = true;
-            screen.xScroll--;
+            horizontalSpeed = -1;
         }
         if (input.right) {
             dir = 3;
             walked = true;
-            screen.xScroll++;
+            horizontalSpeed = 1;
         }
+        if (horizontalSpeed != 0 && verticalSpeed != 0) {
+            horizontalSpeed *= 7;
+            verticalSpeed *= 7;
+        }
+        else {
+            horizontalSpeed *= 10;
+            verticalSpeed *= 10;
+        }
+
+        screen.yScroll += verticalSpeed;
+        screen.xScroll += horizontalSpeed;
+
         if (walked) walkDist++;
         tickCount++;
     }
