@@ -118,22 +118,22 @@ public class Game extends Canvas implements Runnable {
         if (input.up) {
             dir = 1;
             walked = true;
-            verticalSpeed = -1;
+            verticalSpeed--;
         }
         if (input.down) {
             dir = 0;
             walked = true;
-            verticalSpeed = 1;
+            verticalSpeed++;
         }
         if (input.left) {
             dir = 2;
             walked = true;
-            horizontalSpeed = -1;
+            horizontalSpeed--;
         }
         if (input.right) {
             dir = 3;
             walked = true;
-            horizontalSpeed = 1;
+            horizontalSpeed++;
         }
         if (horizontalSpeed != 0 && verticalSpeed != 0) {
             horizontalSpeed *= 7;
