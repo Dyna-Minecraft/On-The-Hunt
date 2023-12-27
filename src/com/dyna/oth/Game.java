@@ -1,9 +1,11 @@
 package com.dyna.oth;
 
+import com.dyna.oth.entity.Player;
 import com.dyna.oth.gfx.Color;
 import com.dyna.oth.gfx.Font;
 import com.dyna.oth.gfx.Screen;
 import com.dyna.oth.gfx.SpriteSheet;
+import com.dyna.oth.level.Level;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -25,13 +27,17 @@ public class Game extends Canvas implements Runnable {
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
     private boolean running = false;
-    private int tickCount;
     private Screen screen;
     private InputHandler input = new InputHandler(this);
     private int walkDist = 0;
     private int dir = 0;
 
-    private int[] colors = new int[256];
+    private int[] colors1 = new int[256];
+    private int[] colors2 = new int[256];
+    private int tickCount = 0;
+
+    private Level level;
+    private Player player;
 
     public void start() {
         running = true;
@@ -43,6 +49,11 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void init() {
+        level = new Level(8, 8);
+        player = new Player();
+
+        level.add(player);
+
         int pp = 0;
         for (int r = 0; r < 6; r++) {
             for (int g = 0; g < 6; g++) {
@@ -51,10 +62,16 @@ public class Game extends Canvas implements Runnable {
                     int gg = (g * 255 / 5);
                     int bb = (b * 255 / 5);
                     int mid = (rr * 30 + gg * 59 + bb * 11) / 100;
-                    rr = ((rr + mid) / 2) * 200 / 255 + 35;
-                    gg = ((gg + mid) / 2) * 200 / 255 + 35;
-                    bb = ((bb + mid) / 2) * 200 / 255 + 35;
-                    colors[pp++] = rr << 16 | gg << 8 | bb;
+
+                    int r1 = ((rr + mid) / 2) * 200 / 255 + 10;
+                    int g1 = ((gg + mid) / 2) * 200 / 255 + 10;
+                    int b1 = ((bb + mid) / 2) * 200 / 255 + 15;
+                    colors1[pp] = r1 << 16 | g1 << 8 | b1;
+
+                    int r2 = ((rr + mid) / 2) * 200 / 255 + 45;
+                    int g2 = ((gg + mid) / 2) * 200 / 255 + 45;
+                    int b2 = ((bb + mid) / 2) * 200 / 255 + 55;
+                    colors2[pp++] = r2 << 16 | g2 << 8 | b2;
                 }
             }
         }
@@ -108,47 +125,33 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void tick() {
+        tickCount++;
+
         if (!hasFocus()) {
             input.releaseAll();
         }
 
+        int xa = 0;
+        int ya = 0;
         boolean walked = false;
-        int horizontalSpeed = 0;
-        int verticalSpeed = 0;
         if (input.up) {
-            dir = 1;
-            walked = true;
-            verticalSpeed = -1;
+            ya--;
         }
         if (input.down) {
-            dir = 0;
-            walked = true;
-            verticalSpeed = 1;
+            ya++;
         }
+
         if (input.left) {
-            dir = 2;
-            walked = true;
-            horizontalSpeed = -1;
+            xa--;
         }
         if (input.right) {
-            dir = 3;
-            walked = true;
-            horizontalSpeed = 1;
-        }
-        if (horizontalSpeed != 0 && verticalSpeed != 0) {
-            horizontalSpeed *= 7;
-            verticalSpeed *= 7;
-        }
-        else {
-            horizontalSpeed *= 10;
-            verticalSpeed *= 10;
+            xa++;
         }
 
-        screen.yScroll += verticalSpeed;
-        screen.xScroll += horizontalSpeed;
-
-        if (walked) walkDist++;
-        tickCount++;
+        if (xa!=0 && ya!=0) {
+            player.move(xa, ya);
+            walkDist++;
+        }
     }
 
     public void render() {
@@ -159,7 +162,14 @@ public class Game extends Canvas implements Runnable {
             return;
         }
 
-        screen.render();
+        level.render(screen, player.x, player.y);
+
+        for (int y = 0; y < screen.h; y++) {
+            for (int x = 0; x < screen.w; x++) {
+                pixels[x + y * WIDTH] = colors1[screen.pixels[x + y * screen.w]];
+            }
+        }
+        screen.clear();
         {
             int xo = WIDTH / 2 - 8;
             int yo = HEIGHT / 2 - 8;
@@ -182,20 +192,51 @@ public class Game extends Canvas implements Runnable {
                 xt += 4 + ((walkDist >> 3) & 1) * 2;
             }
 
-            screen.render(xo + 8 * flip1, yo + 0, xt + yt * 32, Color.get(-1, 100, 220, 542), flip1);
-            screen.render(xo + 8 - 8 * flip1, yo + 0, xt + 1 + yt * 32, Color.get(-1, 100, 220, 542), flip1);
-            screen.render(xo + 8 * flip2, yo + 8, xt + (yt + 1) * 32, Color.get(-1, 100, 220, 542), flip2);
-            screen.render(xo + 8 - 8 * flip2, yo + 8, xt + 1 + (yt + 1) * 32, Color.get(-1, 100, 220, 542), flip2);
+            screen.render(xo + 8 * flip1, yo + 0, xt + yt * 32, Color.get(-1, 100, 411, 542), flip1); // top left
+            screen.render(xo + 8 - 8 * flip1, yo + 0, xt + 1 + yt * 32, Color.get(-1, 100, 411, 542), flip1); // top right
+            screen.render(xo + 8 * flip2, yo + 8, xt + (yt + 1) * 32, Color.get(-1, 100, 411, 542), flip2); // bottom left
+            screen.render(xo + 8 - 8 * flip2, yo + 8, xt + 1 + (yt + 1) * 32, Color.get(-1, 100, 411, 542), flip2); // bottom right
         }
 
         Font.draw("abcdefghi 0123456789", screen, 0, 0, Color.get(-1, 555, 555, 555));
-        for (int y = 0; y < screen.h; y++) {
-            for (int x = 0; x < screen.w; x++) {
-                pixels[x + y * WIDTH] = colors[screen.pixels[x + y * screen.w]];
+
+        if (!hasFocus()) {
+            String msg = "Click to focus!";
+            int xx = (WIDTH - msg.length() * 8) / 2;
+            int yy = (HEIGHT - 8) / 2;
+            int w = msg.length();
+            int h = 1;
+
+            screen.render(xx - 8, yy - 8, 0 + 13 * 32, Color.get(-1, 1, 5, 445), 0);
+            screen.render(xx + w * 8, yy - 8, 0 + 13 * 32, Color.get(-1, 1, 5, 445), 1);
+            screen.render(xx - 8, yy + 8, 0 + 13 * 32, Color.get(-1, 1, 5, 445), 2);
+            screen.render(xx + w * 8, yy + 8, 0 + 13 * 32, Color.get(-1, 1, 5, 445), 3);
+            for (int x = 0; x < w; x++) {
+                screen.render(xx + x * 8, yy - 8, 1 + 13 * 32, Color.get(-1, 1, 5, 445), 0);
+                screen.render(xx + x * 8, yy + 8, 1 + 13 * 32, Color.get(-1, 1, 5, 445), 2);
+            }
+            for (int y = 0; y < h; y++){
+                screen.render(xx - 8, yy + y * 8, 2 + 13 * 32, Color.get(-1, 1, 5, 445), 0);
+                screen.render(xx + w * 8, yy + y * 8, 2 + 13 * 32, Color.get(-1, 1, 5, 445), 1);
+            }
+
+            if ((tickCount/20)%2==0) {
+                Font.draw(msg, screen, xx, yy, Color.get(5, 333, 333, 333));
+            } else {
+                Font.draw(msg, screen, xx, yy, Color.get(5, 555, 555, 555));
             }
         }
+
+        for (int y = 0; y < screen.h; y++) {
+            for (int x = 0; x < screen.w; x++) {
+                int cc = screen.pixels[x + y * screen.w];
+                if (cc < 255) pixels[x + y * WIDTH] = colors2[cc];
+            }
+        }
+
         Graphics g = bs.getDrawGraphics();
         g.fillRect(0, 0, getWidth(), getHeight());
+
         int ww = WIDTH * 3;
         int hh = HEIGHT * 3;
         int xo = (getWidth() - ww) / 2;
