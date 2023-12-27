@@ -15,7 +15,7 @@ public class Level {
     public byte[] tiles;
     public byte[] data;
 
-    public int sandColor = 550; //this colour is ugly
+    public int sandColor = 550; //this colour is uglyy
 
     public List<Entity> entities = new ArrayList<Entity>();
 
