@@ -12,8 +12,8 @@ public class RockTile extends Tile {
 
     public void render(Screen screen, Level level, int x, int y) {
         int rc1 = 111;
-        int rc2 = 333;
-        int rc3 = 555;
+        int rc2 = 222;
+        int rc3 = 333;
         screen.render(x * 16 + 0, y * 16 + 0, 32, Color.get(rc1, level.sandColor, rc2, rc3), 0);
         screen.render(x * 16 + 8, y * 16 + 0, 32, Color.get(rc1, level.sandColor, rc2, rc3), 0);
         screen.render(x * 16 + 0, y * 16 + 8, 32, Color.get(rc1, level.sandColor, rc2, rc3), 0);

@@ -10,9 +10,9 @@ public class SandTile extends Tile {
     }
 
     public void render(Screen screen, Level level, int x, int y) {
-        screen.render(x * 16 + 0, y * 16 + 0, 0, Color.get(level.sandColor, level.sandColor, level.sandColor + 111, level.sandColor + 111), 0);
-        screen.render(x * 16 + 8, y * 16 + 0, 0, Color.get(level.sandColor, level.sandColor, level.sandColor + 111, level.sandColor + 111), 0);
-        screen.render(x * 16 + 0, y * 16 + 8, 0, Color.get(level.sandColor, level.sandColor, level.sandColor + 111, level.sandColor + 111), 0);
-        screen.render(x * 16 + 8, y * 16 + 8, 0, Color.get(level.sandColor, level.sandColor, level.sandColor + 111, level.sandColor + 111), 0);
+        screen.render(x * 16 + 0, y * 16 + 0, 0, Color.get(-1, level.sandColor, level.darkSandColor, level.sandColor), 0);
+        screen.render(x * 16 + 8, y * 16 + 0, 0, Color.get(-1, level.sandColor, level.darkSandColor, level.sandColor), 0);
+        screen.render(x * 16 + 0, y * 16 + 8, 0, Color.get(-1, level.sandColor, level.darkSandColor, level.sandColor), 0);
+        screen.render(x * 16 + 8, y * 16 + 8, 0, Color.get(-1, level.sandColor, level.darkSandColor, level.sandColor), 0);
     }
 }
