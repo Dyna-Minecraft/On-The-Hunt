@@ -1,11 +1,8 @@
 package com.dyna.oth;
 
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
-public class InputHandler implements KeyListener {
+public class InputHandler extends MouseAdapter implements KeyListener {
     public boolean up;
     public boolean down;
     public boolean left;
@@ -18,6 +15,7 @@ public class InputHandler implements KeyListener {
 
     public InputHandler(Game game) {
         game.addKeyListener(this);
+        game.addMouseListener(this);
     }
 
     public void keyPressed(KeyEvent ke) {
@@ -37,10 +35,18 @@ public class InputHandler implements KeyListener {
         if (ke.getKeyCode() == KeyEvent.VK_DOWN) down = pressed;
         if (ke.getKeyCode() == KeyEvent.VK_LEFT) left = pressed;
         if (ke.getKeyCode() == KeyEvent.VK_RIGHT) right = pressed;
-
-        if (ke.getKeyCode() == InputEvent.BUTTON1_DOWN_MASK) attack = pressed;
     }
 
     public void keyTyped(KeyEvent ke) {
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        attack = true;
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        attack = false;
     }
 }
