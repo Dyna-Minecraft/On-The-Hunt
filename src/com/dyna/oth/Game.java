@@ -1,6 +1,7 @@
 package com.dyna.oth;
 
 import com.dyna.oth.entity.Player;
+import com.dyna.oth.entity.TestMob;
 import com.dyna.oth.gfx.Color;
 import com.dyna.oth.gfx.Font;
 import com.dyna.oth.gfx.Screen;
@@ -29,8 +30,6 @@ public class Game extends Canvas implements Runnable {
     private boolean running = false;
     private Screen screen;
     private InputHandler input = new InputHandler(this);
-    private int walkDist = 0;
-    private int dir = 0;
 
     private int[] colors1 = new int[256];
     private int[] colors2 = new int[256];
@@ -49,10 +48,13 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void init() {
-        level = new Level(8, 8);
-        player = new Player();
+        level = new Level(64, 64);
+        player = new Player(input);
 
         level.add(player);
+        for (int i = 0; i < 100; i++) {
+            level.add(new TestMob());
+        }
 
         int pp = 0;
         for (int r = 0; r < 6; r++) {
@@ -115,7 +117,7 @@ public class Game extends Canvas implements Runnable {
                 render();
             }
 
-            if (System.currentTimeMillis() - lastTimer1 > 1000) {
+            if (System.currentTimeMillis() - lastTimer1 > 1) {
                 lastTimer1 += 1000;
                 System.out.println(ticks + " ticks, " + frames + " fps");
                 frames = 0;
@@ -127,30 +129,9 @@ public class Game extends Canvas implements Runnable {
     public void tick() {
         tickCount++;
 
+        level.tick();
         if (!hasFocus()) {
             input.releaseAll();
-        }
-
-        int xa = 0;
-        int ya = 0;
-        boolean walked = false;
-        if (input.up) {
-            ya--;
-        }
-        if (input.down) {
-            ya++;
-        }
-
-        if (input.left) {
-            xa--;
-        }
-        if (input.right) {
-            xa++;
-        }
-
-        if (xa!=0 && ya!=0) {
-            player.move(xa, ya);
-            walkDist++;
         }
     }
 
@@ -162,7 +143,13 @@ public class Game extends Canvas implements Runnable {
             return;
         }
 
-        level.render(screen, player.x, player.y);
+        int xScroll = player.x - screen.w / 2;
+        int yScroll = player.y - screen.h / 2;
+        if (xScroll < 0) xScroll = 0;
+        if (yScroll < 0) yScroll = 0;
+        if (xScroll > level.w * 16 - screen.w) xScroll = level.w * 16 - screen.w;
+        if (yScroll > level.h * 16 - screen.h) yScroll = level.h * 16 - screen.h;
+        level.renderBackground(screen, xScroll, yScroll);
 
         for (int y = 0; y < screen.h; y++) {
             for (int x = 0; x < screen.w; x++) {
@@ -170,35 +157,8 @@ public class Game extends Canvas implements Runnable {
             }
         }
         screen.clear();
-        {
-            int xo = WIDTH / 2 - 8;
-            int yo = HEIGHT / 2 - 8;
-
-            int xt = 0;
-            int yt = 14;
-
-            int flip1 = (walkDist >> 3) & 1;
-            int flip2 = (walkDist >> 3) & 1;
-
-            if (dir == 1) {
-                xt += 2;
-            }
-            if (dir > 1) {
-                flip1 = 0;
-                flip2 = ((walkDist >> 5) & 1);
-                if (dir == 2) {
-                    flip1 = 1;
-                }
-                xt += 4 + ((walkDist >> 3) & 1) * 2;
-            }
-
-            screen.render(xo + 8 * flip1, yo + 0, xt + yt * 32, Color.get(-1, 100, 411, 542), flip1); // top left
-            screen.render(xo + 8 - 8 * flip1, yo + 0, xt + 1 + yt * 32, Color.get(-1, 100, 411, 542), flip1); // top right
-            screen.render(xo + 8 * flip2, yo + 8, xt + (yt + 1) * 32, Color.get(-1, 100, 411, 542), flip2); // bottom left
-            screen.render(xo + 8 - 8 * flip2, yo + 8, xt + 1 + (yt + 1) * 32, Color.get(-1, 100, 411, 542), flip2); // bottom right
-        }
-
-        Font.draw("abcdefghi 0123456789", screen, 0, 0, Color.get(-1, 555, 555, 555));
+        level.renderSprites(screen, xScroll, yScroll);
+        Font.draw("Abcdefghi 0123456789", screen, 0, 0, Color.get(-1, 555, 555, 555));
 
         if (!hasFocus()) {
             String msg = "Click to focus!";
@@ -215,12 +175,12 @@ public class Game extends Canvas implements Runnable {
                 screen.render(xx + x * 8, yy - 8, 1 + 13 * 32, Color.get(-1, 1, 5, 445), 0);
                 screen.render(xx + x * 8, yy + 8, 1 + 13 * 32, Color.get(-1, 1, 5, 445), 2);
             }
-            for (int y = 0; y < h; y++){
+            for (int y = 0; y < h; y++) {
                 screen.render(xx - 8, yy + y * 8, 2 + 13 * 32, Color.get(-1, 1, 5, 445), 0);
                 screen.render(xx + w * 8, yy + y * 8, 2 + 13 * 32, Color.get(-1, 1, 5, 445), 1);
             }
 
-            if ((tickCount/20)%2==0) {
+            if ((tickCount / 20) % 2 == 0) {
                 Font.draw(msg, screen, xx, yy, Color.get(5, 333, 333, 333));
             } else {
                 Font.draw(msg, screen, xx, yy, Color.get(5, 555, 555, 555));

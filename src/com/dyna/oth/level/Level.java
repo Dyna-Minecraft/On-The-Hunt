@@ -1,30 +1,39 @@
 package com.dyna.oth.level;
 
 import com.dyna.oth.entity.Entity;
-import com.dyna.oth.entity.Player;
 import com.dyna.oth.gfx.Screen;
 import com.dyna.oth.level.tile.Tile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Level {
     public int w, h;
 
     public byte[] tiles;
     public byte[] data;
+    public List<Entity>[] entitiesInTiles;
 
-    public int sandColor = 550; //this colour is uglyyy
-    public int darkSandColor = 531; //this colour is uglyyy
+    public int sandColor = 550;
+    public int SandDetailColor = 531;
 
     public List<Entity> entities = new ArrayList<Entity>();
+    private Comparator<Entity> spriteSorter = new Comparator<Entity>() {
+        public int compare(Entity e0, Entity e1) {
+            if (e1.y < e0.y) return +1;
+            if (e1.y > e0.y) return -1;
+            return 0;
+        }
+    };
 
     public Level(int w, int h) {
         this.w = w;
         this.h = h;
         tiles = new byte[w * h];
-        tiles = new byte[w * h];
+        data = new byte[w * h];
+        entitiesInTiles = new ArrayList[w * h];
+        for (int i = 0; i < w * h; i++) {
+            entitiesInTiles[i] = new ArrayList<Entity>();
+        }
 
         Random random = new Random();
 
@@ -36,27 +45,106 @@ public class Level {
         }
     }
 
-    public void render(Screen screen, int xScroll, int yScroll) {
+    public void renderBackground(Screen screen, int xScroll, int yScroll) {
         int xo = xScroll >> 4;
         int yo = yScroll >> 4;
         int w = (screen.w + 15) >> 4;
         int h = (screen.h + 15) >> 4;
         screen.setOffset(xScroll, yScroll);
-        for (int y = yo; y <= h + yo; y++) {
-            for (int x = xo; x <= w + xo; x++) {
+        for (int y = yo - 1; y <= h + yo + 1; y++) {
+            for (int x = xo - 1; x <= w + xo + 1; x++) {
                 getTile(x, y).render(screen, this, x, y);
             }
         }
         screen.setOffset(0, 0);
     }
 
+    private List<Entity> rowSprites = new ArrayList<Entity>();
+
+    public void renderSprites(Screen screen, int xScroll, int yScroll) {
+        int xo = xScroll >> 4;
+        int yo = yScroll >> 4;
+        int w = (screen.w + 15) >> 4;
+        int h = (screen.h + 15) >> 4;
+
+        screen.setOffset(xScroll, yScroll);
+        for (int y = yo; y <= h + yo; y++) {
+            for (int x = xo; x <= w + xo; x++) {
+                if (x < 0 || y < 0 || x >= this.w || y >= this.h) continue;
+                rowSprites.addAll(entitiesInTiles[x + y * this.w]);
+            }
+            if (rowSprites.size() > 0) {
+                sortAndRender(screen, rowSprites);
+            }
+            rowSprites.clear();
+        }
+        screen.setOffset(0, 0);
+    }
+
+    private void sortAndRender(Screen screen, List<Entity> list) {
+        Collections.sort(list, spriteSorter);
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).render(screen);
+        }
+    }
+
     public Tile getTile(int x, int y) {
-        if (x < 0 || y < 0 || x >= w || y >= h) return Tile.sand;
+        if (x < 0 || y < 0 || x >= w || y >= h) return Tile.rock;
         return Tile.tiles[tiles[x + y * 4]];
     }
 
     public void add(Entity entity) {
         entities.add(entity);
         entity.init(this);
+
+        insertEntity(entity.x >> 4, entity.y >> 4, entity);
+    }
+
+    private void insertEntity(int x, int y, Entity e) {
+        if (x < 0 || y < 0 || x >= w || y >= h) return;
+        entitiesInTiles[x + y * w].add(e);
+    }
+
+    private void removeEntity(int x, int y, Entity e) {
+        if (x < 0 || y < 0 || x >= w || y >= h) return;
+        entitiesInTiles[x + y * w].remove(e);
+    }
+
+    public void tick() {
+        for (int i = 0; i < entities.size(); i++) {
+            Entity e = entities.get(i);
+            int xto = e.x >> 4;
+            int yto = e.y >> 4;
+            e.tick();
+            if (e.removed) {
+                entities.remove(i--);
+                removeEntity(xto, yto, e);
+            } else {
+                int xt = e.x >> 4;
+                int yt = e.y >> 4;
+
+                if (xto != xt || yto != yt) {
+                    removeEntity(xto, yto, e);
+                    insertEntity(xt, yt, e);
+                }
+            }
+        }
+    }
+
+    public void getEntities(List<Entity> result, int x0, int y0, int x1, int y1) {
+        int xt0 = (x0 >> 4) - 1;
+        int yt0 = (y0 >> 4) - 1;
+        int xt1 = (x1 >> 4) + 1;
+        int yt1 = (y1 >> 4) + 1;
+        for (int y = yt0; y <= yt1; y++) {
+            for (int x = xt0; x <= xt1; x++) {
+                if (x < 0 || y < 0 || x >= w || y >= h) continue;
+                List<Entity> entities = entitiesInTiles[x + y * this.w];
+                for (int i = 0; i < entities.size(); i++) {
+                    Entity e = entities.get(i);
+                    if (e.intersects(x0, y0, x1, y1)) result.add(e);
+                }
+            }
+        }
     }
 }
