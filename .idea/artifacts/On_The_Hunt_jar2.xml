@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="On The Hunt:jar2">
+    <output-path>$PROJECT_DIR$/out/artifacts/On_The_Hunt_jar</output-path>
+    <root id="archive" name="On The Hunt.jar">
+      <element id="module-output" name="On The Hunt" />
+    </root>
+  </artifact>
+</component>

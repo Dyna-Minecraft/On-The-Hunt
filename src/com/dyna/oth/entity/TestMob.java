@@ -14,9 +14,10 @@ public class TestMob extends Mob {
     }
 
     public void tick() {
+        super.tick();
         if (!move(xa, ya) || random.nextInt(40) == 0) {
-            xa = random.nextInt(3) - 1;
-            ya = random.nextInt(3) - 1;
+            xa = (random.nextInt(3) - 1) * random.nextInt(4) / 3;
+            ya = (random.nextInt(3) - 1) * random.nextInt(4) / 3;
         }
     }
 
@@ -42,9 +43,14 @@ public class TestMob extends Mob {
         int xo = x - 8;
         int yo = y - 11;
 
-        screen.render(xo + 8 * flip1, yo + 0, xt + yt * 32, Color.get(-1, 100, shirtColor, 542), flip1); // top left
-        screen.render(xo + 8 - 8 * flip1, yo + 0, xt + 1 + yt * 32, Color.get(-1, 100, shirtColor, 542), flip1); // top right
-        screen.render(xo + 8 * flip2, yo + 8, xt + (yt + 1) * 32, Color.get(-1, 100, shirtColor, 542), flip2); // bottom left
-        screen.render(xo + 8 - 8 * flip2, yo + 8, xt + 1 + (yt + 1) * 32, Color.get(-1, 100, shirtColor, 542), flip2); // bottom right
+        int col = Color.get(-1, 100, shirtColor, 542);
+        if (hurtTime > 0) {
+            col = Color.get(-1, 500, 500, 500);
+        }
+
+        screen.render(xo + 8 * flip1, yo + 0, xt + yt * 32, col, flip1); // top left
+        screen.render(xo + 8 - 8 * flip1, yo + 0, xt + 1 + yt * 32, col, flip1); // top right
+        screen.render(xo + 8 * flip2, yo + 8, xt + (yt + 1) * 32, col, flip2); // bottom left
+        screen.render(xo + 8 - 8 * flip2, yo + 8, xt + 1 + (yt + 1) * 32, col, flip2); // bottom right
     }
 }

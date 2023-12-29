@@ -1,5 +1,6 @@
 package com.dyna.oth;
 
+import javax.swing.*;
 import java.awt.event.*;
 
 public class InputHandler extends MouseAdapter implements KeyListener {
@@ -42,11 +43,15 @@ public class InputHandler extends MouseAdapter implements KeyListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        attack = true;
+        if (SwingUtilities.isLeftMouseButton(e)) {
+            attack = true;
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        attack = false;
+        if (SwingUtilities.isLeftMouseButton(e)) {
+            attack = false;
+        }
     }
 }

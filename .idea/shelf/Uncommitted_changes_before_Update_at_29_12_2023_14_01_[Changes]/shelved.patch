@@ -1,0 +1,116 @@
+Index: src/com/dyna/oth/InputHandler.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.dyna.oth;\r\n\r\nimport java.awt.event.InputEvent;\r\nimport java.awt.event.KeyEvent;\r\nimport java.awt.event.KeyListener;\r\nimport java.awt.event.MouseEvent;\r\n\r\npublic class InputHandler implements KeyListener {\r\n    public boolean up;\r\n    public boolean down;\r\n    public boolean left;\r\n    public boolean right;\r\n    public boolean attack;\r\n\r\n    public void releaseAll() {\r\n        up = down = left = right = false;\r\n    }\r\n\r\n    public InputHandler(Game game) {\r\n        game.addKeyListener(this);\r\n    }\r\n\r\n    public void keyPressed(KeyEvent ke) {\r\n        toggle(ke, true);\r\n    }\r\n\r\n    public void keyReleased(KeyEvent ke) {\r\n        toggle(ke, false);\r\n    }\r\n\r\n    private void toggle(KeyEvent ke, boolean pressed) {\r\n        if (ke.getKeyCode() == KeyEvent.VK_W) up = pressed;\r\n        if (ke.getKeyCode() == KeyEvent.VK_S) down = pressed;\r\n        if (ke.getKeyCode() == KeyEvent.VK_A) left = pressed;\r\n        if (ke.getKeyCode() == KeyEvent.VK_D) right = pressed;\r\n        if (ke.getKeyCode() == KeyEvent.VK_UP) up = pressed;\r\n        if (ke.getKeyCode() == KeyEvent.VK_DOWN) down = pressed;\r\n        if (ke.getKeyCode() == KeyEvent.VK_LEFT) left = pressed;\r\n        if (ke.getKeyCode() == KeyEvent.VK_RIGHT) right = pressed;\r\n\r\n        if (ke.getKeyCode() == InputEvent.BUTTON1_DOWN_MASK) attack = pressed;\r\n    }\r\n\r\n    public void keyTyped(KeyEvent ke) {\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/com/dyna/oth/InputHandler.java b/src/com/dyna/oth/InputHandler.java
+--- a/src/com/dyna/oth/InputHandler.java	(revision 56e43bded5805519653e69944dbd4f2c347e5acb)
++++ b/src/com/dyna/oth/InputHandler.java	(date 1703856980613)
+@@ -1,9 +1,6 @@
+ package com.dyna.oth;
+ 
+-import java.awt.event.InputEvent;
+-import java.awt.event.KeyEvent;
+-import java.awt.event.KeyListener;
+-import java.awt.event.MouseEvent;
++import java.awt.event.*;
+ 
+ public class InputHandler implements KeyListener {
+     public boolean up;
+@@ -38,7 +35,7 @@
+         if (ke.getKeyCode() == KeyEvent.VK_LEFT) left = pressed;
+         if (ke.getKeyCode() == KeyEvent.VK_RIGHT) right = pressed;
+ 
+-        if (ke.getKeyCode() == InputEvent.BUTTON1_DOWN_MASK) attack = pressed;
++        if (ke.getKeyCode() == KeyEvent.VK_C) attack = pressed; //press C to attack, I want it to Left Click (MB1) to attack
+     }
+ 
+     public void keyTyped(KeyEvent ke) {
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ArtifactsWorkspaceSettings\">\r\n    <artifacts-to-build>\r\n      <artifact name=\"On The Hunt:jar\" />\r\n    </artifacts-to-build>\r\n  </component>\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"21e00e09-3012-4f93-b65e-56483ccfa3cd\" name=\"Changes\" comment=\"frick\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/res/icons.png\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/res/icons.png\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/com/dyna/oth/Game.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/com/dyna/oth/Game.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/com/dyna/oth/InputHandler.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/com/dyna/oth/InputHandler.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/com/dyna/oth/entity/Entity.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/com/dyna/oth/entity/Entity.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/com/dyna/oth/entity/Mob.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/com/dyna/oth/entity/Mob.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/com/dyna/oth/entity/Player.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/com/dyna/oth/entity/Player.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/com/dyna/oth/level/Level.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/com/dyna/oth/level/Level.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/com/dyna/oth/level/tile/SandTile.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/com/dyna/oth/level/tile/SandTile.java\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"package-info\" />\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"master\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"HighlightingSettingsPerFile\">\r\n    <setting file=\"file://$PROJECT_DIR$/src/com/dyna/oth/Game.java\" root0=\"FORCE_HIGHLIGHTING\" />\r\n  </component>\r\n  <component name=\"ProblemsViewState\">\r\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 5\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2XtMFmXPayup0FtX0xdrfnMfy2f\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\r\n    <ConfirmationsSetting value=\"1\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"git-widget-placeholder\": \"branch-2\",\r\n    \"jdk.selected.JAVA_MODULE\": \"21\",\r\n    \"last_opened_file_path\": \"C:/Users/benja/Downloads/FishBlock-1.20.4/FishBlock-1.20.4\",\r\n    \"project.structure.last.edited\": \"Project\",\r\n    \"project.structure.proportion\": \"0.15\",\r\n    \"project.structure.side.proportion\": \"0.2\",\r\n    \"settings.editor.selected.configurable\": \"preferences.lookFeel\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CreateClassDialog.RecentsKey\">\r\n      <recent name=\"com.dyna.oth.entity\" />\r\n      <recent name=\"com.dyna.oth.level.tile\" />\r\n      <recent name=\"com.dyna.oth\" />\r\n    </key>\r\n    <key name=\"CopyClassDialog.RECENTS_KEY\">\r\n      <recent name=\"com.dyna.oth.entity\" />\r\n      <recent name=\"com.dyna.oth.level.tile\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\">\r\n    <configuration name=\"Game\" type=\"Application\" factoryName=\"Application\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"com.dyna.oth.Game\" />\r\n      <module name=\"On The Hunt\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"21e00e09-3012-4f93-b65e-56483ccfa3cd\" name=\"Changes\" comment=\"\" />\r\n      <created>1699443826159</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1699443826159</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"Commit\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1699449200826</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1699449200826</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"Commit\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1699449254109</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1699449254109</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"Commit\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1699461715435</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1699461715435</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"Commit\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1699527315098</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1699527315098</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"Commit\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1700339388920</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1700339388920</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"Commit\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1702836945297</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1702836945297</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00007\" summary=\"Commit\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1703104197071</created>\r\n      <option name=\"number\" value=\"00007\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1703104197072</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00008\" summary=\"thx slash!\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1703158405573</created>\r\n      <option name=\"number\" value=\"00008\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1703158405574</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00009\" summary=\"Commit\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1703191131518</created>\r\n      <option name=\"number\" value=\"00009\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1703191131518</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00010\" summary=\"ejudsa\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1703244543852</created>\r\n      <option name=\"number\" value=\"00010\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1703244543852</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00011\" summary=\"Commit\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1703269221789</created>\r\n      <option name=\"number\" value=\"00011\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1703269221789</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00012\" summary=\"thx slash! (v2)\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1703273477336</created>\r\n      <option name=\"number\" value=\"00012\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1703273477336</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00013\" summary=\"Commit\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1703334818786</created>\r\n      <option name=\"number\" value=\"00013\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1703334818786</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00014\" summary=\"&gt;:(\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1703689529004</created>\r\n      <option name=\"number\" value=\"00014\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1703689529004</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00015\" summary=\"&gt;:(\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1703690211649</created>\r\n      <option name=\"number\" value=\"00015\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00015\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1703690211649</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00016\" summary=\"frick\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1703690233291</created>\r\n      <option name=\"number\" value=\"00016\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00016\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1703690233291</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"17\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"RECENT_FILTERS\">\r\n      <map>\r\n        <entry key=\"User\">\r\n          <value>\r\n            <list>\r\n              <RecentGroup>\r\n                <option name=\"FILTER_VALUES\">\r\n                  <option value=\"Slash2317\" />\r\n                </option>\r\n              </RecentGroup>\r\n              <RecentGroup>\r\n                <option name=\"FILTER_VALUES\">\r\n                  <option value=\"Slash\" />\r\n                </option>\r\n              </RecentGroup>\r\n            </list>\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State>\r\n              <option name=\"FILTERS\">\r\n                <map>\r\n                  <entry key=\"user\">\r\n                    <value>\r\n                      <list>\r\n                        <option value=\"Slash2317\" />\r\n                      </list>\r\n                    </value>\r\n                  </entry>\r\n                </map>\r\n              </option>\r\n            </State>\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"thx slash!\" />\r\n    <MESSAGE value=\"ejudsa\" />\r\n    <MESSAGE value=\"thx slash! (v2)\" />\r\n    <MESSAGE value=\"Commit\" />\r\n    <MESSAGE value=\"&gt;:(\" />\r\n    <MESSAGE value=\"frick\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"frick\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 56e43bded5805519653e69944dbd4f2c347e5acb)
++++ b/.idea/workspace.xml	(date 1703858473693)
+@@ -9,16 +9,9 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="21e00e09-3012-4f93-b65e-56483ccfa3cd" name="Changes" comment="frick">
++    <list default="true" id="21e00e09-3012-4f93-b65e-56483ccfa3cd" name="Changes" comment="Commit">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/res/icons.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/icons.png" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/com/dyna/oth/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/dyna/oth/Game.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/com/dyna/oth/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/dyna/oth/InputHandler.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/com/dyna/oth/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/dyna/oth/entity/Entity.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/com/dyna/oth/entity/Mob.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/dyna/oth/entity/Mob.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/com/dyna/oth/entity/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/dyna/oth/entity/Player.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/com/dyna/oth/level/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/dyna/oth/level/Level.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/com/dyna/oth/level/tile/SandTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/dyna/oth/level/tile/SandTile.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -57,17 +50,17 @@
+   <component name="ProjectViewState">
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "git-widget-placeholder": "branch-2",
+-    "jdk.selected.JAVA_MODULE": "21",
+-    "last_opened_file_path": "C:/Users/benja/Downloads/FishBlock-1.20.4/FishBlock-1.20.4",
+-    "project.structure.last.edited": "Project",
+-    "project.structure.proportion": "0.15",
+-    "project.structure.side.proportion": "0.2",
+-    "settings.editor.selected.configurable": "preferences.lookFeel"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;git-widget-placeholder&quot;: &quot;branch-2&quot;,
++    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;21&quot;,
++    &quot;last_opened_file_path&quot;: &quot;C:/Users/benja/Downloads/MODDING/the-only-mod-you-will-ever-need-1.20.2&quot;,
++    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
++    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
++    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
++    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="RecentsManager">
+     <key name="CreateClassDialog.RecentsKey">
+       <recent name="com.dyna.oth.entity" />
+@@ -225,7 +218,15 @@
+       <option name="project" value="LOCAL" />
+       <updated>1703690233291</updated>
+     </task>
+-    <option name="localTasksCounter" value="17" />
++    <task id="LOCAL-00017" summary="Commit">
++      <option name="closed" value="true" />
++      <created>1703846874866</created>
++      <option name="number" value="00017" />
++      <option name="presentableId" value="LOCAL-00017" />
++      <option name="project" value="LOCAL" />
++      <updated>1703846874866</updated>
++    </task>
++    <option name="localTasksCounter" value="18" />
+     <servers />
+   </component>
+   <component name="Vcs.Log.Tabs.Properties">
+@@ -275,9 +276,9 @@
+     <MESSAGE value="thx slash!" />
+     <MESSAGE value="ejudsa" />
+     <MESSAGE value="thx slash! (v2)" />
+-    <MESSAGE value="Commit" />
+     <MESSAGE value="&gt;:(" />
+     <MESSAGE value="frick" />
+-    <option name="LAST_COMMIT_MESSAGE" value="frick" />
++    <MESSAGE value="Commit" />
++    <option name="LAST_COMMIT_MESSAGE" value="Commit" />
+   </component>
+ </project>
+\ No newline at end of file

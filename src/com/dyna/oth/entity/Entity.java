@@ -34,4 +34,7 @@ public class Entity {
     public boolean tiles(Mob mob) {
         return false;
     }
+
+    public void hurt(Mob mob, int i, int attackDir) {
+    }
 }

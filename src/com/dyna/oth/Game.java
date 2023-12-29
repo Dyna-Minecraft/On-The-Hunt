@@ -52,7 +52,7 @@ public class Game extends Canvas implements Runnable {
         player = new Player(input);
 
         level.add(player);
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
             level.add(new TestMob());
         }
 

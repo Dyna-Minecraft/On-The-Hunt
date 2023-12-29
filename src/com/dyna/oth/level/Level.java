@@ -131,7 +131,8 @@ public class Level {
         }
     }
 
-    public void getEntities(List<Entity> result, int x0, int y0, int x1, int y1) {
+    public List<Entity> getEntities(int x0, int y0, int x1, int y1) {
+        List<Entity> result = new ArrayList<Entity>();
         int xt0 = (x0 >> 4) - 1;
         int yt0 = (y0 >> 4) - 1;
         int xt1 = (x1 >> 4) + 1;
@@ -146,5 +147,6 @@ public class Level {
                 }
             }
         }
+        return result;
     }
 }
