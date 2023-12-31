@@ -3,6 +3,7 @@ package com.dyna.oth.entity;
 import com.dyna.oth.InputHandler;
 import com.dyna.oth.gfx.Color;
 import com.dyna.oth.gfx.Screen;
+import com.dyna.oth.level.Level;
 
 import java.util.List;
 
@@ -95,6 +96,18 @@ public class Player extends Mob {
         if (attackTime > 0 && attackDir == 0) {
             screen.render(xo + 0, yo + 8 + 4, 6 + 13 * 32, Color.get(-1, 555, 555, 555), 2);
             screen.render(xo + 8, yo + 8 + 4, 6 + 13 * 32, Color.get(-1, 555, 555, 555), 3);
+        }
+    }
+
+    public void findStartPos(Level level) {
+        while (true) {
+            int x = random.nextInt(level.w);
+            int y = random.nextInt(level.h);
+            if (level.getTile(x, y).mayPass(level, x, y, this)) {
+                this.x = x * 16 + 8;
+                this.y = y * 16 + 8;
+                return;
+            }
         }
     }
 }

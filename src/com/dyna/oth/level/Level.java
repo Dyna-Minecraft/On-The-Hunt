@@ -2,6 +2,7 @@ package com.dyna.oth.level;
 
 import com.dyna.oth.entity.Entity;
 import com.dyna.oth.gfx.Screen;
+import com.dyna.oth.level.levelgen.Noise;
 import com.dyna.oth.level.tile.Tile;
 
 import java.util.*;
@@ -28,20 +29,11 @@ public class Level {
     public Level(int w, int h) {
         this.w = w;
         this.h = h;
-        tiles = new byte[w * h];
+        tiles = Noise.getMap(w, h);
         data = new byte[w * h];
         entitiesInTiles = new ArrayList[w * h];
         for (int i = 0; i < w * h; i++) {
             entitiesInTiles[i] = new ArrayList<Entity>();
-        }
-
-        Random random = new Random();
-
-        for (int i = 0; i < w * h; i++) {
-            tiles[i] = Tile.sand.id;
-            if (random.nextInt(20) == 0) {
-                tiles[i] = Tile.rock.id;
-            }
         }
     }
 

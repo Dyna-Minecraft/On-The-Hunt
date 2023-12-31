@@ -23,5 +23,4 @@ public class RockTile extends Tile {
     public boolean mayPass(Level level, int x, int y, Entity e) {
         return false;
     }
-
 }

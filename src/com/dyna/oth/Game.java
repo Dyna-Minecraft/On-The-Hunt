@@ -48,8 +48,9 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void init() {
-        level = new Level(64, 64);
+        level = new Level(128, 128);
         player = new Player(input);
+        player.findStartPos(level);
 
         level.add(player);
         for (int i = 0; i < 10; i++) {

@@ -8,6 +8,7 @@ public class Tile {
     public static Tile[] tiles = new Tile[256];
     public static Tile sand = new SandTile(0);
     public static Tile rock = new RockTile(1);
+    public static Tile deepsand = new DeepsandTile(2);
 
     public final byte id;
 

@@ -11,12 +11,15 @@
   <component name="ChangeListManager">
     <list default="true" id="21e00e09-3012-4f93-b65e-56483ccfa3cd" name="Changes" comment="Commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/dyna/oth/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/dyna/oth/InputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/dyna/oth/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/dyna/oth/entity/Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/dyna/oth/entity/Mob.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/dyna/oth/entity/Mob.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/ideas.txt" beforeDir="false" afterPath="$PROJECT_DIR$/doc/ideas.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/dyna/oth/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/dyna/oth/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/dyna/oth/entity/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/dyna/oth/entity/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/dyna/oth/entity/TestMob.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/dyna/oth/entity/TestMob.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/dyna/oth/gfx/Screen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/dyna/oth/gfx/Screen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/dyna/oth/level/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/dyna/oth/level/Level.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/dyna/oth/level/levelgen/Noise.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/dyna/oth/level/levelgen/Noise.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/dyna/oth/level/tile/RockTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/dyna/oth/level/tile/RockTile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/dyna/oth/level/tile/SandTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/dyna/oth/level/tile/SandTile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/dyna/oth/level/tile/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/dyna/oth/level/tile/Tile.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,12 +76,12 @@
       <recent name="com.dyna.oth" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.dyna.oth.level.tile" />
       <recent name="com.dyna.oth.entity.particle" />
       <recent name="com.dyna.oth.entity" />
-      <recent name="com.dyna.oth.level.tile" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Game">
     <configuration name="Game" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="com.dyna.oth.Game" />
       <module name="On The Hunt" />
@@ -86,6 +89,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Noise" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.dyna.oth.level.levelgen.Noise" />
+      <module name="On The Hunt" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Noise" />
+      <item itemvalue="Application.Game" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -232,7 +246,15 @@
       <option name="project" value="LOCAL" />
       <updated>1703846874866</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Commit">
+      <option name="closed" value="true" />
+      <created>1703883807382</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1703883807382</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
